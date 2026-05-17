@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Apex Auto Workshop — Precision Service for Every Mile</title>
+<script src="image-slot.js"></script>
+<style>
+  :root {
+    --bg-dark: #0a0a0f;
+    --bg-panel: #13131a;
+    --red: #e53935;
+    --red-glow: rgba(229, 57, 53, 0.55);
+    --red-soft: rgba(229, 57, 53, 0.12);
+    --orange: #ff7043;
+    --text: #f5f5f7;
+    --text-dim: #9a9aa6;
+    --light-bg: #f7f7f9;
+    --light-card: #ffffff;
+    --ink: #0e0e14;
+    --border-dark: rgba(255,255,255,0.08);
+    --border-light: rgba(0,0,0,0.08);
+    --radius: 12px;
+    --fs-h1: clamp(40px, 6vw, 76px);
+    --fs-h2: clamp(28px, 3.4vw, 44px);
+    --fs-lead: clamp(16px, 1.4vw, 19px);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--light-bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  h1, h2, h3, h4 { font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
+  h1 { font-size: var(--fs-h1); }
+  h2 { font-size: var(--fs-h2); }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,15,0.7);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-dark);
+    color: var(--text);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 600; font-size: 18px; letter-spacing: -0.01em;
+  }
+  .logo-mark {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--red) 0%, #b71c1c 100%);
+    display: grid; place-items: center;
+    box-shadow: 0 4px 16px rgba(229,57,53,0.4);
+    position: relative;
+  }
+  .logo-mark::after {
+    content: ""; position: absolute; inset: 6px; border-radius: 4px;
+    border: 1.5px solid rgba(255,255,255,0.85);
+    border-bottom: none; border-right: none;
+    transform: rotate(45deg);
+  }
+  .nav-links { display: flex; gap: 32px; font-size: 14px; color: var(--text-dim); }
+  .nav-links a { transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--red); color: #fff;
+    padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 500;
+    transition: transform .15s, box-shadow .2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(229,57,53,0.4); }
+  @media (max-width: 768px) { .nav-links { display: none; } }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    background: var(--bg-dark);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 140px 0 80px;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute; left: 50%; top: 60%; transform: translate(-50%, -50%);
+    width: 1100px; height: 700px;
+    background: radial-gradient(ellipse at center, var(--red-glow) 0%, rgba(229,57,53,0.18) 30%, transparent 65%);
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-grid {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 60%;
+    perspective: 600px;
+    perspective-origin: 50% 0%;
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+  }
+  .hero-grid-inner {
+    position: absolute; left: -20%; right: -20%; top: 0; bottom: -40%;
+    transform: rotateX(62deg);
+    transform-origin: 50% 0%;
+    background-image:
+      linear-gradient(to right, rgba(229,57,53,0.18) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(229,57,53,0.18) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 6s linear infinite;
+    mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+  }
+  @keyframes gridMove {
+    from { background-position: 0 0; }
+    to   { background-position: 0 60px; }
+  }
+  .hero-content {
+    position: relative; z-index: 5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    text-align: left;
+  }
+  @media (max-width: 900px) {
+    .hero-content { grid-template-columns: 1fr; text-align: center; gap: 32px; }
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 8px 14px; border-radius: 99px;
+    border: 1px solid var(--border-dark);
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--red); box-shadow: 0 0 12px var(--red);
+  }
+  .hero h1 {
+    font-weight: 600;
+    background: linear-gradient(180deg, #ffffff 0%, #b8b8c4 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(180deg, var(--red) 0%, #ff5252 100%);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .hero-lead {
+    color: var(--text-dim); font-size: var(--fs-lead);
+    margin: 22px 0 0; max-width: 520px;
+  }
+  @media (max-width: 900px) { .hero-lead { margin-left: auto; margin-right: auto; } }
+  .hero-cta-row {
+    display: flex; gap: 14px; justify-content: flex-start;
+    margin: 36px 0 0;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 900px) { .hero-cta-row { justify-content: center; } }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 10px;
+    font-size: 15px; font-weight: 500;
+    transition: transform .15s, box-shadow .2s, background .2s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary {
+    background: var(--red); color: #fff;
+    box-shadow: 0 10px 30px rgba(229,57,53,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(229,57,53,0.5); }
+  .btn-ghost {
+    background: rgba(255,255,255,0.06); color: var(--text);
+    border: 1px solid var(--border-dark);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+  .btn .arrow { transition: transform .2s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+  .ripple {
+    position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transform: scale(0); animation: rippleAnim .6s linear;
+    pointer-events: none;
+  }
+  @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+  /* ===== 3D CAR ===== */
+  .car-stage {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    margin: 0;
+    perspective: 900px;
+    z-index: 4;
+  }
+  @media (max-width: 900px) {
+    .car-stage { margin: 24px auto 0; }
+  }
+  .car-wrap {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; max-width: 600px;
+    animation: hover 3s ease-in-out infinite;
+    will-change: transform;
+  }
+  @keyframes hover {
+    0%, 100% { transform: translate(-50%, -52%); }
+    50%      { transform: translate(-50%, -48%); }
+  }
+  .car-shadow {
+    position: absolute; left: 50%; bottom: -38px;
+    transform: translateX(-50%);
+    width: 70%; height: 36px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 50%, transparent 75%);
+    filter: blur(6px);
+    animation: shadowPulse 3s ease-in-out infinite;
+    z-index: -1;
+  }
+  @keyframes shadowPulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: .9; }
+    50%      { transform: translateX(-50%) scale(0.85); opacity: .7; }
+  }
+  .car-svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6)); }
+  image-slot#hero-car { filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6)); }
+  /* image-slot fills its container; its inner image scales contain */
+  image-slot#hero-car::part(image) { object-fit: contain; }
+  .car-reflection {
+    position: absolute; left: 8%; right: 8%; bottom: -8px;
+    height: 20px;
+    background: linear-gradient(180deg, rgba(229,57,53,0.4) 0%, transparent 100%);
+    filter: blur(8px);
+    border-radius: 50%;
+  }
+  /* speed lines */
+  .speed-lines {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; height: 80%;
+    opacity: 0; transition: opacity .25s;
+    pointer-events: none; z-index: 2;
+  }
+  .car-stage:hover .speed-lines { opacity: 1; }
+  .speed-lines span {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--red) 50%, transparent 100%);
+    opacity: 0;
+    animation: speedDash 1.2s linear infinite;
+    border-radius: 2px;
+  }
+  .car-stage:hover .speed-lines span { opacity: 1; }
+  @keyframes speedDash {
+    0% { transform: translateX(-200px) scaleX(0.4); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateX(200px) scaleX(1.6); opacity: 0; }
+  }
+
+  /* ===== Stats ===== */
+  .stats {
+    position: relative; z-index: 5;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 720px; margin: 80px auto 0;
+    padding: 28px;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(10px);
+  }
+  .stat-num {
+    font-size: clamp(28px, 3.6vw, 44px);
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .stat-num .plus, .stat-num .pct, .stat-num .yr {
+    color: var(--red); margin-left: 2px;
+  }
+  .stat-label {
+    color: var(--text-dim); font-size: 13px;
+    margin-top: 6px; letter-spacing: 0.04em;
+  }
+  @media (max-width: 600px) { .stats { grid-template-columns: 1fr; } }
+
+  /* ===== Sections (light) ===== */
+  section { padding: 100px 0; }
+  .section-eyebrow {
+    display: inline-block;
+    color: var(--red); font-size: 12px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .section-head { margin-bottom: 56px; max-width: 720px; }
+  .section-head p { color: #555; font-size: var(--fs-lead); margin-top: 14px; }
+
+  /* Fade-in */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== Services (flip cards) ===== */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .services-grid { grid-template-columns: 1fr; } }
+  .flip-card { perspective: 1000px; height: 280px; }
+  .flip-card-inner {
+    position: relative; width: 100%; height: 100%;
+    transition: transform .7s cubic-bezier(.4,.2,.2,1);
+    transform-style: preserve-3d;
+  }
+  .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+  .flip-face {
+    position: absolute; inset: 0;
+    border-radius: var(--radius);
+    background: var(--light-card);
+    border: 0.5px solid var(--border-light);
+    padding: 28px;
+    display: flex; flex-direction: column;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: box-shadow .2s;
+  }
+  .flip-front {
+    justify-content: space-between;
+  }
+  .flip-back {
+    background: var(--ink);
+    color: #fff;
+    transform: rotateY(180deg);
+    justify-content: space-between;
+  }
+  .flip-front .icon {
+    width: 56px; height: 56px; border-radius: 12px;
+    background: var(--red-soft);
+    color: var(--red);
+    display: grid; place-items: center;
+  }
+  .flip-front h3 { font-size: 22px; font-weight: 600; }
+  .flip-front .meta { color: #777; font-size: 13px; }
+  .flip-back h3 { font-size: 18px; font-weight: 600; color: #fff; }
+  .flip-back p { font-size: 14px; color: #b8b8c4; }
+  .flip-back .price {
+    display: inline-flex; align-items: baseline; gap: 4px;
+    font-size: 24px; font-weight: 600; color: var(--red);
+  }
+  .flip-back .price small { font-size: 13px; color: #888; font-weight: 400; }
+  .accent-bar {
+    position: absolute; left: 0; top: 18px; bottom: 18px;
+    width: 3px; background: var(--red);
+    border-radius: 2px;
+    transform: scaleY(0); transform-origin: top;
+    transition: transform .3s ease;
+  }
+  .flip-front:hover .accent-bar { transform: scaleY(1); }
+
+  /* ===== Why us ===== */
+  .why { background: #ffffff; }
+  .why-list { display: grid; gap: 16px; }
+  .why-row {
+    display: grid; grid-template-columns: 70px 1fr auto; gap: 24px;
+    align-items: center;
+    padding: 28px;
+    border: 0.5px solid var(--border-light);
+    border-radius: var(--radius);
+    background: #fff;
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .why-row:hover { transform: translateX(4px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+  .why-row::before {
+    content: ""; position: absolute; left: 0; top: 18px; bottom: 18px;
+    width: 3px; background: var(--red); border-radius: 2px;
+    transform: scaleY(0); transform-origin: top;
+    transition: transform .3s ease;
+  }
+  .why-row:hover::before { transform: scaleY(1); }
+  .why-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: var(--red-soft); color: var(--red);
+    display: grid; place-items: center; flex-shrink: 0;
+  }
+  .why-row h3 { font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+  .why-row p { color: #666; font-size: 14px; }
+  .why-num {
+    font-size: 14px; color: #aaa; letter-spacing: 0.1em; font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 600px) {
+    .why-row { grid-template-columns: 56px 1fr; }
+    .why-num { display: none; }
+  }
+
+  /* ===== Testimonials ===== */
+  .testimonials { background: #f0f0f4; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .testi-grid { grid-template-columns: 1fr; } }
+  .testi {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border-light);
+    padding: 32px;
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .testi:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+  .testi .stars { color: var(--red); font-size: 14px; letter-spacing: 2px; margin-bottom: 14px; }
+  .testi blockquote { font-size: 16px; line-height: 1.6; color: #333; margin: 0 0 24px; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, #2a2a35 0%, #0a0a0f 100%);
+    color: #fff; font-weight: 600;
+    display: grid; place-items: center;
+    font-size: 14px; letter-spacing: 0.05em;
+  }
+  .testi-author .who { font-size: 14px; font-weight: 600; }
+  .testi-author .role { font-size: 12px; color: #888; }
+
+  /* ===== Gallery ===== */
+  .gallery { background: var(--bg-dark); color: var(--text); }
+  .gallery .section-eyebrow { color: var(--red); }
+  .gallery .section-head h2 { color: #fff; }
+  .gallery .section-head p { color: var(--text-dim); }
+
+  .jobs { display: grid; gap: 18px; }
+  .job {
+    background: var(--bg-panel);
+    border: 1px solid rgba(229,57,53,0.18);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color .25s;
+  }
+  .job:hover { border-color: rgba(229,57,53,0.4); }
+  .job-header {
+    display: grid; grid-template-columns: auto 1fr auto auto; gap: 18px;
+    align-items: center;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .job-thumb-strip {
+    display: flex; gap: 4px;
+  }
+  .job-thumb {
+    width: 38px; height: 28px; border-radius: 4px;
+  }
+  .job-title-wrap { min-width: 0; }
+  .job-title {
+    font-size: 17px; font-weight: 600; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .job-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .job-tag {
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 12px; border-radius: 99px;
+    background: rgba(229,57,53,0.15);
+    color: #ff7a73;
+    border: 1px solid rgba(229,57,53,0.25);
+    font-weight: 600;
+  }
+  .job-toggle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    display: grid; place-items: center;
+    transition: transform .3s, background .2s;
+  }
+  .job-toggle:hover { background: rgba(229,57,53,0.3); }
+  .job.open .job-toggle { transform: rotate(180deg); }
+
+  .job-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .5s ease;
+  }
+  .job.open .job-body { max-height: 900px; }
+  .job-body-inner {
+    padding: 0 22px 24px;
+  }
+
+  /* slider */
+  .slider {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 16 / 7;
+    user-select: none;
+  }
+  .slider-panels {
+    position: absolute; inset: 0;
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .panel { position: relative; overflow: hidden; }
+  .panel-img {
+    position: absolute; inset: 0;
+    display: none;
+  }
+  .panel-img.active { display: block; }
+  .panel-label {
+    position: absolute; top: 14px;
+    padding: 6px 12px; border-radius: 99px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    backdrop-filter: blur(6px);
+    z-index: 5;
+  }
+  .panel-before .panel-label { left: 14px; }
+  .panel-after  .panel-label { right: 14px; background: rgba(229,57,53,0.7); }
+  .panel-nav {
+    position: absolute; bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+    z-index: 5;
+  }
+  .panel-before .panel-nav { left: 14px; }
+  .panel-after  .panel-nav { right: 14px; }
+  .nav-btn {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    display: grid; place-items: center;
+    transition: background .2s;
+  }
+  .nav-btn:hover { background: var(--red); }
+  .panel-counter {
+    font-size: 12px; color: #fff;
+    background: rgba(0,0,0,0.55);
+    padding: 6px 10px; border-radius: 99px;
+    font-variant-numeric: tabular-nums;
+    backdrop-filter: blur(6px);
+  }
+  /* center divider drag handle */
+  .divider {
+    position: absolute; top: 0; bottom: 0;
+    left: 50%;
+    width: 3px;
+    background: #fff;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+  }
+  .divider-handle {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    display: grid; place-items: center;
+    cursor: ew-resize;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    z-index: 15;
+    pointer-events: auto;
+    font-size: 12px;
+  }
+  .divider-handle.disabled {
+    opacity: 0.35;
+    background: #444;
+    cursor: not-allowed;
+  }
+  /* compare mode: clip after panel */
+  .slider.compare .panel-after .panel-img.active { clip-path: inset(0 0 0 var(--split)); }
+  .slider.compare .panel-after { grid-column: 1 / span 2; pointer-events: none; }
+  .slider.compare .panel-before { grid-column: 1 / span 2; grid-row: 1; }
+  .slider.compare .panel-after { grid-row: 1; }
+  .slider.compare .panel-before .panel-img.active { clip-path: inset(0 calc(100% - var(--split)) 0 0); }
+  .compare-hint {
+    position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.55); color: #fff;
+    font-size: 11px; padding: 6px 12px; border-radius: 99px;
+    z-index: 20; letter-spacing: 0.08em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .25s;
+    backdrop-filter: blur(6px);
+  }
+  .slider.compare .compare-hint { opacity: 1; }
+  .compare-toggle {
+    margin-top: 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px; border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    color: #fff; font-size: 13px;
+    border: 1px solid var(--border-dark);
+    transition: background .2s;
+  }
+  .compare-toggle:hover { background: rgba(229,57,53,0.2); }
+  .compare-toggle.active { background: var(--red); border-color: var(--red); }
+
+  .load-more-wrap { text-align: center; margin-top: 36px; }
+  .load-more {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 28px; border-radius: 10px;
+    background: rgba(229,57,53,0.12);
+    color: var(--red);
+    border: 1px solid rgba(229,57,53,0.3);
+    font-weight: 500; font-size: 14px;
+    transition: all .2s;
+  }
+  .load-more:hover { background: var(--red); color: #fff; }
+
+  /* ===== Booking / Contact ===== */
+  .booking { background: #fff; }
+  .booking-grid {
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .booking-grid { grid-template-columns: 1fr; } }
+
+  .form {
+    background: #fff;
+    border: 0.5px solid var(--border-light);
+    border-radius: var(--radius);
+    padding: 36px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+  .field { margin-bottom: 18px; position: relative; }
+  .field label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: #555; margin-bottom: 6px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .field input, .field select {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid #ddd;
+    background: transparent;
+    padding: 10px 0;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--ink);
+    transition: border-color .2s;
+    outline: none;
+    border-radius: 0;
+  }
+  .field input:focus, .field select:focus {
+    border-bottom-color: var(--red);
+    box-shadow: 0 1px 0 0 var(--red), 0 4px 12px -4px rgba(229,57,53,0.4);
+  }
+  .form-submit {
+    width: 100%;
+    margin-top: 8px;
+    background: var(--red); color: #fff;
+    padding: 16px; border-radius: 10px;
+    font-weight: 500; font-size: 15px;
+    position: relative; overflow: hidden;
+    transition: background .2s, transform .15s, box-shadow .2s;
+  }
+  .form-submit:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(229,57,53,0.35); }
+  .form-success {
+    display: none;
+    background: #d4edda; color: #155724;
+    border-radius: 8px; padding: 12px; margin-top: 14px;
+    font-size: 14px; text-align: center;
+  }
+  .form-success.show { display: block; }
+
+  .contact-info { display: grid; gap: 22px; }
+  .contact-block {
+    padding: 22px;
+    border-radius: var(--radius);
+    background: var(--light-bg);
+    border: 0.5px solid var(--border-light);
+    display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: start;
+  }
+  .contact-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--red-soft); color: var(--red);
+    display: grid; place-items: center;
+  }
+  .contact-block .label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: #888; font-weight: 600; margin-bottom: 4px;
+  }
+  .contact-block .value { font-size: 15px; color: var(--ink); font-weight: 500; }
+  .contact-block .sub { font-size: 13px; color: #777; margin-top: 2px; }
+
+  /* ===== Footer ===== */
+  footer {
+    background: var(--bg-dark); color: var(--text-dim);
+    padding: 56px 0 32px;
+    border-top: 1px solid var(--border-dark);
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 800px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  .foot-brand p { font-size: 14px; margin-top: 12px; max-width: 280px; }
+  .foot-col h4 { font-size: 13px; color: #fff; margin-bottom: 14px; letter-spacing: 0.05em; }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; font-size: 14px; }
+  .foot-col a:hover { color: var(--red); }
+  .foot-bottom {
+    border-top: 1px solid var(--border-dark);
+    padding-top: 24px;
+    font-size: 13px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark"></div>
+      <span>APEX&nbsp;<span style="color: var(--red);">AUTO</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#why">Why us</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#book">Contact</a>
+    </div>
+    <a href="#book" class="nav-cta">Book service</a>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid" id="heroGrid">
+    <div class="hero-grid-inner"></div>
+  </div>
+
+  <div class="container hero-content">
+    <div class="hero-text">
+    <div class="hero-eyebrow">Certified workshop · Est. 2007</div>
+    <h1>
+      Engineered care<br />
+      for every <span class="accent">mile.</span>
+    </h1>
+    <p class="hero-lead">
+      From engine rebuilds to mirror-finish detailing — Apex Auto runs
+      a 14-bay precision workshop trusted by drivers across the county.
+    </p>
+    <div class="hero-cta-row">
+      <button class="btn btn-primary" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth'})">
+        Book a service <span class="arrow">→</span>
+      </button>
+      <a href="#services" class="btn btn-ghost">Browse services</a>
+    </div>
+    </div>
+
+    <!-- 3D CAR -->
+    <div class="car-stage" id="carStage">
+      <div class="speed-lines">
+        <span style="top: 20%; left: 0; width: 30%; animation-delay: 0s;"></span>
+        <span style="top: 35%; left: 5%; width: 22%; animation-delay: .25s;"></span>
+        <span style="top: 50%; right: 0; width: 32%; animation-delay: .5s;"></span>
+        <span style="top: 65%; right: 8%; width: 25%; animation-delay: .35s;"></span>
+        <span style="top: 80%; left: 3%; width: 28%; animation-delay: .15s;"></span>
+      </div>
+
+      <div class="car-wrap">
+        <div class="car-shadow"></div>
+        <!-- <image-slot
+          id="hero-car"
+          shape="rect"
+          placeholder="Drop a side-profile car photo here (PNG with transparent bg works best)",
+          src="car.jpg"
+          style="display:block;width:100%;height:260px;background:transparent;border:1px dashed rgba(229,57,53,0.35);border-radius:12px;color:#9a9aa6;"
+        ></image-slot> -->
+        <img
+          id="hero-car"
+          src="car1.png"
+          alt="Car"
+          style="display:block;width:100%;height:300px;object-fit:contain;background:transparent;border:1px dashed rgba(229,57,53,0.35);border-radius:12px;"
+        />
+        <svg class="car-svg car-svg-fallback" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none;">
+          <defs>
+            <!-- body gradients -->
+            <linearGradient id="bodyTop" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#3a3a44"/>
+              <stop offset=".4" stop-color="#1d1d24"/>
+              <stop offset="1" stop-color="#0e0e14"/>
+            </linearGradient>
+            <linearGradient id="bodyMain" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2a2a32"/>
+              <stop offset=".5" stop-color="#15151c"/>
+              <stop offset="1" stop-color="#0a0a0f"/>
+            </linearGradient>
+            <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#5a6878" stop-opacity=".7"/>
+              <stop offset=".5" stop-color="#2a3340"/>
+              <stop offset="1" stop-color="#0a0d12"/>
+            </linearGradient>
+            <radialGradient id="headlight" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="#fff8dc" stop-opacity="1"/>
+              <stop offset=".5" stop-color="#ffae42" stop-opacity=".7"/>
+              <stop offset="1" stop-color="#ff5722" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="taillight" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="#ff5252" stop-opacity="1"/>
+              <stop offset=".5" stop-color="#e53935" stop-opacity=".6"/>
+              <stop offset="1" stop-color="#b71c1c" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="rim" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="#888"/>
+              <stop offset=".5" stop-color="#444"/>
+              <stop offset="1" stop-color="#111"/>
+            </radialGradient>
+          </defs>
+
+          <!-- floor reflection -->
+          <ellipse cx="280" cy="180" rx="240" ry="8" fill="rgba(229,57,53,0.25)" filter="blur(2px)"/>
+
+          <!-- headlight glow on floor -->
+          <ellipse cx="70" cy="172" rx="70" ry="10" fill="url(#headlight)" opacity=".55"/>
+          <!-- taillight glow on floor -->
+          <ellipse cx="495" cy="172" rx="70" ry="10" fill="url(#taillight)" opacity=".65"/>
+
+          <!-- BODY BASE (deep shadow layer) -->
+          <path d="M40 140 Q50 100 110 80 L180 60 Q230 48 280 46 Q335 48 390 60 L455 78 Q510 90 520 130 L515 152 L40 152 Z"
+                fill="#000" opacity=".55" transform="translate(2,4)"/>
+
+          <!-- MAIN BODY -->
+          <path d="M40 140 Q50 100 110 80 L180 60 Q230 48 280 46 Q335 48 390 60 L455 78 Q510 90 520 130 L515 150 L40 150 Z"
+                fill="url(#bodyMain)" stroke="#000" stroke-width=".5"/>
+
+          <!-- Roof/top highlight -->
+          <path d="M125 80 Q140 55 200 50 L280 46 Q345 48 400 56 Q420 60 430 76 L420 88 L140 92 Z"
+                fill="url(#bodyTop)" opacity=".9"/>
+
+          <!-- WINDOWS -->
+          <path d="M155 85 Q170 65 215 60 L275 56 Q315 58 350 62 L380 72 L380 100 L155 100 Z"
+                fill="url(#glass)" stroke="#000" stroke-width=".5"/>
+          <!-- window divider (B pillar) -->
+          <line x1="268" y1="58" x2="268" y2="100" stroke="#000" stroke-width="1.5" opacity=".6"/>
+          <!-- window highlight -->
+          <path d="M160 86 Q175 70 220 64 L270 60 L268 70 L162 92 Z" fill="#fff" opacity=".08"/>
+
+          <!-- DOOR LINES -->
+          <line x1="268" y1="100" x2="268" y2="148" stroke="#000" stroke-width="1.2" opacity=".5"/>
+          <line x1="380" y1="100" x2="380" y2="148" stroke="#000" stroke-width="1" opacity=".4"/>
+          <!-- door handles -->
+          <rect x="218" y="118" width="20" height="3" rx="1.5" fill="#444"/>
+          <rect x="320" y="118" width="20" height="3" rx="1.5" fill="#444"/>
+
+          <!-- side body highlight -->
+          <path d="M60 130 L520 130 L515 134 L60 134 Z" fill="#fff" opacity=".06"/>
+          <!-- lower body shadow -->
+          <path d="M40 140 L520 140 L515 150 L40 150 Z" fill="#000" opacity=".4"/>
+
+          <!-- HEADLIGHT -->
+          <ellipse cx="58" cy="118" rx="22" ry="9" fill="url(#headlight)"/>
+          <ellipse cx="58" cy="118" rx="12" ry="5" fill="#fffae0"/>
+          <!-- bumper headlight strip -->
+          <rect x="40" y="135" width="40" height="4" rx="2" fill="#fff8dc" opacity=".5"/>
+
+          <!-- TAILLIGHT -->
+          <path d="M495 110 L516 116 L518 128 L495 132 Z" fill="url(#taillight)"/>
+          <rect x="494" y="116" width="22" height="10" rx="2" fill="#e53935"/>
+          <rect x="494" y="116" width="22" height="3" rx="1.5" fill="#ff8a80" opacity=".8"/>
+
+          <!-- GRILLE -->
+          <rect x="42" y="130" width="6" height="14" fill="#000"/>
+
+          <!-- WHEEL WELLS -->
+          <ellipse cx="135" cy="150" rx="42" ry="22" fill="#000"/>
+          <ellipse cx="430" cy="150" rx="42" ry="22" fill="#000"/>
+
+          <!-- WHEELS (front) -->
+          <g>
+            <ellipse cx="135" cy="158" rx="36" ry="36" fill="#0a0a0f"/>
+            <ellipse cx="135" cy="158" rx="32" ry="32" fill="#1a1a22"/>
+            <!-- rim depth rings -->
+            <circle cx="135" cy="158" r="28" fill="none" stroke="#2a2a35" stroke-width="1"/>
+            <circle cx="135" cy="158" r="24" fill="none" stroke="#3a3a48" stroke-width="1" opacity=".7"/>
+            <circle cx="135" cy="158" r="20" fill="url(#rim)"/>
+            <circle cx="135" cy="158" r="16" fill="none" stroke="#666" stroke-width="1" opacity=".6"/>
+            <circle cx="135" cy="158" r="12" fill="none" stroke="#888" stroke-width=".8" opacity=".5"/>
+            <!-- spokes -->
+            <g stroke="#777" stroke-width="2" opacity=".7">
+              <line x1="135" y1="142" x2="135" y2="174"/>
+              <line x1="119" y1="158" x2="151" y2="158"/>
+              <line x1="124" y1="147" x2="146" y2="169"/>
+              <line x1="146" y1="147" x2="124" y2="169"/>
+            </g>
+            <circle cx="135" cy="158" r="4" fill="#aaa"/>
+            <circle cx="135" cy="158" r="2" fill="#444"/>
+          </g>
+
+          <!-- WHEELS (rear) -->
+          <g>
+            <ellipse cx="430" cy="158" rx="36" ry="36" fill="#0a0a0f"/>
+            <ellipse cx="430" cy="158" rx="32" ry="32" fill="#1a1a22"/>
+            <circle cx="430" cy="158" r="28" fill="none" stroke="#2a2a35" stroke-width="1"/>
+            <circle cx="430" cy="158" r="24" fill="none" stroke="#3a3a48" stroke-width="1" opacity=".7"/>
+            <circle cx="430" cy="158" r="20" fill="url(#rim)"/>
+            <circle cx="430" cy="158" r="16" fill="none" stroke="#666" stroke-width="1" opacity=".6"/>
+            <circle cx="430" cy="158" r="12" fill="none" stroke="#888" stroke-width=".8" opacity=".5"/>
+            <g stroke="#777" stroke-width="2" opacity=".7">
+              <line x1="430" y1="142" x2="430" y2="174"/>
+              <line x1="414" y1="158" x2="446" y2="158"/>
+              <line x1="419" y1="147" x2="441" y2="169"/>
+              <line x1="441" y1="147" x2="419" y2="169"/>
+            </g>
+            <circle cx="430" cy="158" r="4" fill="#aaa"/>
+            <circle cx="430" cy="158" r="2" fill="#444"/>
+          </g>
+        </svg>
+        <div class="car-reflection"></div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    </div><!-- /hero-content grid -->
+    <div class="container">
+    <div class="stats" id="stats">
+      <div>
+        <div class="stat-num"><span class="counter" data-target="12400">0</span><span class="plus">+</span></div>
+        <div class="stat-label">CARS SERVICED</div>
+      </div>
+      <div>
+        <div class="stat-num"><span class="counter" data-target="98">0</span><span class="pct">%</span></div>
+        <div class="stat-label">SATISFACTION</div>
+      </div>
+      <div>
+        <div class="stat-num"><span class="counter" data-target="19">0</span><span class="yr">yrs</span></div>
+        <div class="stat-label">UNDER THE HOOD</div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============== SERVICES ============== -->
+<section id="services">
+  <div class="container">
+    <div class="section-head fade-in">
+      <div class="section-eyebrow">Our services</div>
+      <h2>Everything your car needs,<br/>under one roof.</h2>
+      <p>Hover any card to see what's included and the starting rate. Every job comes with a 12-month workmanship warranty.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Service cards rendered by JS for compactness -->
+    </div>
+  </div>
+</section>
+
+<!-- ============== WHY US ============== -->
+<section class="why" id="why">
+  <div class="container">
+    <div class="section-head fade-in">
+      <div class="section-eyebrow">Why Apex</div>
+      <h2>The little things that<br/>make a big difference.</h2>
+    </div>
+
+    <div class="why-list">
+      <div class="why-row fade-in">
+        <div class="why-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div>
+          <h3>Master mechanics, no rotating juniors</h3>
+          <p>Every job is touched by an ASE-certified technician with 8+ years on the floor. Your car never trains a beginner.</p>
+        </div>
+        <div class="why-num">01</div>
+      </div>
+      <div class="why-row fade-in">
+        <div class="why-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <h3>Same-day turnaround on most services</h3>
+          <p>Drop off before 9am, drive away before dinner. We hold parts for 11 of the top-15 makes on-site, so you don't wait on a courier.</p>
+        </div>
+        <div class="why-num">02</div>
+      </div>
+      <div class="why-row fade-in">
+        <div class="why-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/><path d="m2 7 10 5 10-5L12 2 2 7z"/></svg>
+        </div>
+        <div>
+          <h3>Transparent, itemized quotes</h3>
+          <p>You see parts cost, labor hours, and a photo of what we found before any wrench is turned. No surprise upcharges, ever.</p>
+        </div>
+        <div class="why-num">03</div>
+      </div>
+      <div class="why-row fade-in">
+        <div class="why-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-6 0v4"/><rect x="4" y="9" width="16" height="12" rx="2"/><circle cx="12" cy="15" r="1.5"/></svg>
+        </div>
+        <div>
+          <h3>12-month, 12,000-mile warranty</h3>
+          <p>Every repair is backed in writing. If something we touched fails within a year, we make it right at zero cost.</p>
+        </div>
+        <div class="why-num">04</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TESTIMONIALS ============== -->
+<section class="testimonials" id="reviews">
+  <div class="container">
+    <div class="section-head fade-in">
+      <div class="section-eyebrow">What drivers say</div>
+      <h2>Four hundred 5-star reviews,<br/>and we read every one.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi fade-in">
+        <div class="stars">★★★★★</div>
+        <blockquote>"They diagnosed an intermittent stall three other shops gave up on. Picked up at 4pm same day. The detailed photo report alone won my business for life."</blockquote>
+        <div class="testi-author">
+          <div class="avatar">MR</div>
+          <div>
+            <div class="who">Maya Rodríguez</div>
+            <div class="role">2019 Subaru Outback</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi fade-in">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Honest quote, no upsells, and they texted me a video walk-around of the brake wear before approving. That's not a workshop — that's a partner."</blockquote>
+        <div class="testi-author">
+          <div class="avatar">DT</div>
+          <div>
+            <div class="who">Daniel Tomlin</div>
+            <div class="role">2021 Ford F-150</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi fade-in">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Brought in a 22-year-old wagon that everyone wrote off. Two days later it idles like a sewing machine. The before/after photos are framed in my garage."</blockquote>
+        <div class="testi-author">
+          <div class="avatar">JK</div>
+          <div>
+            <div class="who">June Kawamura</div>
+            <div class="role">2003 Volvo V70</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== GALLERY ============== -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="section-head fade-in">
+      <div class="section-eyebrow">Work in the bay</div>
+      <h2>Before, after, and<br/>every step between.</h2>
+      <p>Slide the divider to compare panels at the same index, or page through each side independently.</p>
+    </div>
+
+    <div class="jobs" id="jobs"></div>
+
+    <div class="load-more-wrap">
+      <button class="load-more" id="loadMore">
+        Load more jobs
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== BOOKING & CONTACT ============== -->
+<section class="booking" id="book">
+  <div class="container">
+    <div class="section-head fade-in">
+      <div class="section-eyebrow">Book a service</div>
+      <h2>Pick a day. We'll take<br/>care of the rest.</h2>
+    </div>
+
+    <div class="booking-grid">
+      <form class="form fade-in" id="bookingForm" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" type="text" placeholder="Alex Morgan" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" type="tel" placeholder="(555) 123-4567" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="service">Service</label>
+            <select id="service" required>
+              <option value="">Choose a service…</option>
+              <option>Oil & filter change</option>
+              <option>Brake service</option>
+              <option>Engine diagnostic</option>
+              <option>Tire rotation / replacement</option>
+              <option>A/C recharge & repair</option>
+              <option>Annual inspection</option>
+              <option>Paint / Body work</option>
+              <option>Other / not sure</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="date">Preferred date</label>
+            <input id="date" type="date" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="notes">Notes (optional)</label>
+          <input id="notes" type="text" placeholder="Anything we should know?" />
+        </div>
+        <button type="submit" class="form-submit" id="submitBtn">
+          Book now
+        </button>
+        <div class="form-success" id="formSuccess">
+          ✓ Booking received — we'll call within 30 minutes to confirm.
+        </div>
+      </form>
+
+      <div class="contact-info fade-in">
+        <div class="contact-block">
+          <div class="contact-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="label">Workshop</div>
+            <div class="value">418 Ironwood Ave., Bay 7</div>
+            <div class="sub">Greenfield Industrial Park · 02143</div>
+          </div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13 1.05.37 2.08.72 3.06a2 2 0 0 1-.45 2.11L8.09 10.18a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.98.35 2.01.59 3.06.72A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="label">Phone</div>
+            <div class="value">(617) 555-0184</div>
+            <div class="sub">Tap to call · text-friendly</div>
+          </div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="label">Email</div>
+            <div class="value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="205345525649434560415045584155544f0e53484f50">[email&#160;protected]</a></div>
+            <div class="sub">We reply within 2 business hours</div>
+          </div>
+        </div>
+        <div class="contact-block">
+          <div class="contact-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="label">Hours</div>
+            <div class="value">Mon–Fri · 7:30am — 6:00pm</div>
+            <div class="sub">Saturday · 8am — 2pm · Sunday closed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo">
+          <div class="logo-mark"></div>
+          <span style="color:#fff">APEX&nbsp;<span style="color: var(--red);">AUTO</span></span>
+        </a>
+        <p>Independent, multi-make workshop serving Greenfield and the greater metro since 2007.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Engine</a></li>
+          <li><a href="#services">Brakes</a></li>
+          <li><a href="#services">A/C</a></li>
+          <li><a href="#services">Inspection</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Workshop</h4>
+        <ul>
+          <li><a href="#why">About</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#book">Book</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Warranty terms</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Accessibility</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Apex Auto Workshop. All rights reserved.</div>
+      <div>Made in the bay · ASE-certified · BBB A+ rated</div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ========== SERVICES (flip cards) ========== */
+const services = [
+  { name: 'Engine Repair', tag: 'Powertrain', price: '180', desc: 'Diagnostics, rebuilds, timing belt service, and full powertrain repairs by ASE master techs.',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h2V8h3V6h4v2h3v2h2v6h-2v2h-3v2h-4v-2H7v-2H5z"/><circle cx="12" cy="13" r="2"/></svg>' },
+  { name: 'Oil Service', tag: '30-min express', price: '59', desc: 'Full synthetic oil, OEM filter, 27-point safety check, and a digital service record.',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M5 9c0 6 3 13 7 13s7-7 7-13H5z"/><path d="M9 5h6"/></svg>' },
+  { name: 'Tires & Alignment', tag: 'Rolling stock', price: '95', desc: 'Mount, balance, rotate, and laser alignment for cars, SUVs and light trucks.',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="3" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="21"/><line x1="3" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="21" y2="12"/></svg>' },
+  { name: 'Brake Service', tag: 'Stopping power', price: '149', desc: 'Pads, rotors, calipers, and brake fluid flush — with road-tested results.',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/></svg>' },
+  { name: 'A/C Service', tag: 'Cool & dry', price: '129', desc: 'Refrigerant recharge, leak detection, evaporator and condenser repair.',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m4 6 16 12"/><path d="M20 6 4 18"/><circle cx="12" cy="12" r="2"/></svg>' },
+  { name: 'Annual Inspection', tag: 'Peace of mind', price: '49', desc: '120-point bumper-to-bumper inspection with photo evidence and priority list.',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/><polyline points="8 11 10.5 13.5 14 9.5"/></svg>' },
+];
+
+const servicesGrid = document.querySelector('.services-grid');
+services.forEach(s => {
+  const card = document.createElement('div');
+  card.className = 'flip-card fade-in';
+  card.innerHTML = `
+    <div class="flip-card-inner">
+      <div class="flip-face flip-front">
+        <div class="accent-bar"></div>
+        <div class="icon">${s.icon}</div>
+        <div>
+          <h3>${s.name}</h3>
+          <div class="meta">${s.tag}</div>
+        </div>
+      </div>
+      <div class="flip-face flip-back">
+        <h3>${s.name}</h3>
+        <p>${s.desc}</p>
+        <div class="price">$${s.price}<small>&nbsp;/ starting</small></div>
+      </div>
+    </div>
+  `;
+  servicesGrid.appendChild(card);
+});
+
+/* ========== GALLERY JOBS ========== */
+const jobsData = [
+  {
+    title: 'Full respray — 2014 Honda Civic',
+    sub: 'Color-matched two-stage urethane · 7 days in the booth',
+    tag: 'Paint',
+
+    before: [
+      { hue: 20,  sat: 8,  light: 38, label: 'curb scrape, hood' },
+      { hue: 35,  sat: 6,  light: 35, label: 'oxidized roof'      },
+      { hue: 10,  sat: 5,  light: 30, label: 'rust spots, rocker' },
+      { hue: 25,  sat: 7,  light: 36, label: 'fender peeling'      },
+    ],
+    after: [
+      { hue: 0,   sat: 65, light: 38, label: 'fresh ceramic clearcoat' },
+      { hue: 0,   sat: 70, light: 42, label: 'mirror finish hood'      },
+      { hue: 350, sat: 55, light: 36, label: 'rockers redone'          },
+      { hue: 0,   sat: 60, light: 40, label: 'panel-perfect'            },
+    ],
+  },
+  {
+    title: 'Dent repair & panel beat — 2019 Toyota RAV4',
+    sub: 'PDR + filler-free section work · 36 labor hours',
+    tag: 'Dent Repair',
+    before: [
+      { hue: 215, sat: 5,  light: 30, label: 'rear quarter dent'  },
+      { hue: 210, sat: 6,  light: 32, label: 'crease, driver door'},
+      { hue: 220, sat: 4,  light: 28, label: 'bumper misalignment'},
+    ],
+    after: [
+      { hue: 215, sat: 35, light: 32, label: 'straight as glass' },
+      { hue: 215, sat: 38, light: 36, label: 'door, restored'    },
+      { hue: 215, sat: 32, light: 30, label: 'bumper realigned'  },
+    ],
+  },
+  {
+    title: 'Full interior detail — 2017 BMW 3-Series',
+    sub: 'Leather rehab · headliner clean · ozone treatment',
+    tag: 'Interior',
+    before: [
+      { hue: 30, sat: 6,  light: 25, label: 'coffee stains'    },
+      { hue: 35, sat: 5,  light: 22, label: 'cracked leather'  },
+      { hue: 40, sat: 7,  light: 28, label: 'dust-caked vents' },
+    ],
+    after: [
+      { hue: 30, sat: 25, light: 18, label: 'rich oiled leather' },
+      { hue: 30, sat: 22, light: 20, label: 'crack-filled seats' },
+      { hue: 30, sat: 28, light: 22, label: 'showroom-clean dash'},
+    ],
+  },
+];
+
+const moreJobsData = [
+  {
+    title: 'Engine swap — 2008 Subaru WRX',
+    sub: 'JDM EJ20 longblock · clean install',
+    tag: 'Powertrain',
+    before: [
+      { hue: 0, sat: 0, light: 22, label: 'tired old bay'   },
+      { hue: 0, sat: 0, light: 18, label: 'oil-caked block' },
+      { hue: 0, sat: 0, light: 20, label: 'corroded wiring' },
+    ],
+    after: [
+      { hue: 220, sat: 50, light: 28, label: 'fresh bay, dressed' },
+      { hue: 220, sat: 55, light: 32, label: 'new longblock'      },
+      { hue: 220, sat: 48, light: 30, label: 'tidied harness'     },
+    ],
+  },
+  {
+    title: 'Headlight restoration — 2012 Mazda 3',
+    sub: 'Wet sand · polish · UV-resist seal',
+    tag: 'Detailing',
+    before: [
+      { hue: 50, sat: 8, light: 70, label: 'yellow haze'  },
+      { hue: 50, sat: 10, light: 68, label: 'cloudy lens' },
+    ],
+    after: [
+      { hue: 200, sat: 30, light: 88, label: 'crystal clear' },
+      { hue: 200, sat: 28, light: 90, label: 'OEM-fresh'     },
+    ],
+  },
+];
+
+function makePanelSwatch(p) {
+  // texture is two overlaid noise-ish gradients
+  return `
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 6px),
+      repeating-linear-gradient(45deg, rgba(0,0,0,0.06) 0 3px, transparent 3px 9px),
+      radial-gradient(circle at 30% 40%, hsl(${p.hue} ${p.sat}% ${p.light + 8}%), hsl(${p.hue} ${p.sat}% ${p.light}%) 60%, hsl(${p.hue} ${p.sat}% ${Math.max(p.light - 10, 5)}%));
+  `;
+}
+
+function renderJob(job, idx) {
+  const id = 'job-' + Math.random().toString(36).slice(2, 8);
+  const beforeImgs = job.before.map((p, i) => `<div class="panel-img${i === 0 ? ' active' : ''}" style="${makePanelSwatch(p)}">
+    <div style="position:absolute;bottom:14px;left:14px;font:500 11px/1 ui-monospace,monospace;color:rgba(255,255,255,0.6);letter-spacing:0.05em;">— ${p.label}</div>
+  </div>`).join('');
+  const afterImgs  = job.after.map((p, i)  => `<div class="panel-img${i === 0 ? ' active' : ''}" style="${makePanelSwatch(p)}">
+    <div style="position:absolute;bottom:14px;right:14px;font:500 11px/1 ui-monospace,monospace;color:rgba(255,255,255,0.75);letter-spacing:0.05em;">— ${p.label}</div>
+  </div>`).join('');
+
+  // tiny thumbnail strip uses first 3 swatches mixed
+  const thumbs = job.before.slice(0, 2).concat(job.after.slice(0, 1)).map(p =>
+    `<div class="job-thumb" style="${makePanelSwatch(p)}"></div>`
+  ).join('');
+
+  return `
+    <article class="job fade-in" data-job="${id}">
+      <div class="job-header" data-toggle>
+        <div class="job-thumb-strip">${thumbs}</div>
+        <div class="job-title-wrap">
+          <div class="job-title">${job.title}</div>
+          <div class="job-sub">${job.sub}</div>
+        </div>
+        <div class="job-tag">${job.tag}</div>
+        <div class="job-toggle">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+      <div class="job-body">
+        <div class="job-body-inner">
+          <div class="slider" data-slider style="--split: 50%;">
+            <div class="slider-panels">
+              <div class="panel panel-before">
+                <div class="panel-label">BEFORE</div>
+                ${beforeImgs}
+                <div class="panel-nav">
+                  <button class="nav-btn" data-prev="before"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+                  <div class="panel-counter"><span data-counter="before">1</span> / ${job.before.length}</div>
+                  <button class="nav-btn" data-next="before"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+                </div>
+              </div>
+              <div class="panel panel-after">
+                <div class="panel-label">AFTER</div>
+                ${afterImgs}
+                <div class="panel-nav">
+                  <button class="nav-btn" data-prev="after"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+                  <div class="panel-counter"><span data-counter="after">1</span> / ${job.after.length}</div>
+                  <button class="nav-btn" data-next="after"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+                </div>
+              </div>
+            </div>
+            <div class="divider">
+              <button class="divider-handle" data-handle title="Drag to compare">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 3 12 9 6"/><polyline points="15 6 21 12 15 18"/></svg>
+              </button>
+            </div>
+            <div class="compare-hint">DRAG TO COMPARE</div>
+          </div>
+          <button class="compare-toggle" data-compare-toggle>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+            Compare overlay
+          </button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+const jobsContainer = document.getElementById('jobs');
+function appendJobs(list) {
+  list.forEach((j, i) => {
+    jobsContainer.insertAdjacentHTML('beforeend', renderJob(j, i));
+  });
+  hookupNewJobs();
+  if (typeof observeFadeIns === 'function') observeFadeIns();
+}
+
+function hookupNewJobs() {
+  document.querySelectorAll('.job:not([data-hooked])').forEach(jobEl => {
+    jobEl.dataset.hooked = '1';
+    const header = jobEl.querySelector('[data-toggle]');
+    header.addEventListener('click', () => {
+      jobEl.classList.toggle('open');
+    });
+
+    const slider = jobEl.querySelector('[data-slider]');
+    const beforeImgs = slider.querySelectorAll('.panel-before .panel-img');
+    const afterImgs  = slider.querySelectorAll('.panel-after .panel-img');
+    const beforeCounter = slider.querySelector('[data-counter="before"]');
+    const afterCounter  = slider.querySelector('[data-counter="after"]');
+
+    const state = { before: 0, after: 0 };
+    function update(side) {
+      const imgs = side === 'before' ? beforeImgs : afterImgs;
+      const counter = side === 'before' ? beforeCounter : afterCounter;
+      imgs.forEach((el, i) => el.classList.toggle('active', i === state[side]));
+      counter.textContent = state[side] + 1;
+      checkCompareEligible();
+    }
+    function checkCompareEligible() {
+      const handle = slider.querySelector('[data-handle]');
+      const eligible = state.before === state.after;
+      handle.classList.toggle('disabled', !eligible);
+      if (!eligible && slider.classList.contains('compare')) {
+        // exit compare if indexes diverge
+        slider.classList.remove('compare');
+        slider.style.setProperty('--split', '50%');
+        const btn = jobEl.querySelector('[data-compare-toggle]');
+        btn.classList.remove('active');
+      }
+    }
+    slider.querySelectorAll('[data-prev]').forEach(b => b.addEventListener('click', e => {
+      e.stopPropagation();
+      const side = b.dataset.prev;
+      const max = side === 'before' ? beforeImgs.length : afterImgs.length;
+      state[side] = (state[side] - 1 + max) % max;
+      update(side);
+    }));
+    slider.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', e => {
+      e.stopPropagation();
+      const side = b.dataset.next;
+      const max = side === 'before' ? beforeImgs.length : afterImgs.length;
+      state[side] = (state[side] + 1) % max;
+      update(side);
+    }));
+
+    // compare toggle
+    const compareBtn = jobEl.querySelector('[data-compare-toggle]');
+    compareBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (state.before !== state.after) {
+        state.after = state.before;
+        update('after');
+      }
+      slider.classList.toggle('compare');
+      compareBtn.classList.toggle('active');
+      slider.style.setProperty('--split', '50%');
+      slider.querySelector('.divider').style.left = '50%';
+    });
+
+    // drag the divider
+    const handle = slider.querySelector('[data-handle]');
+    const divider = slider.querySelector('.divider');
+    let dragging = false;
+    function startDrag(e) {
+      if (handle.classList.contains('disabled')) return;
+      if (!slider.classList.contains('compare')) {
+        if (state.before !== state.after) return;
+        slider.classList.add('compare');
+        compareBtn.classList.add('active');
+      }
+      dragging = true;
+      e.preventDefault();
+    }
+    function onMove(e) {
+      if (!dragging) return;
+      const rect = slider.getBoundingClientRect();
+      const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      const pct = Math.max(0, Math.min(100, (x / rect.width) * 100));
+      slider.style.setProperty('--split', pct + '%');
+      divider.style.left = pct + '%';
+    }
+    function endDrag() { dragging = false; }
+    handle.addEventListener('mousedown', startDrag);
+    handle.addEventListener('touchstart', startDrag, { passive: false });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: true });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+
+    checkCompareEligible();
+  });
+}
+
+// Open first job by default
+setTimeout(() => {
+  const first = document.querySelector('.job');
+  if (first) first.classList.add('open');
+}, 100);
+
+// Load more
+let loadedMore = false;
+document.getElementById('loadMore').addEventListener('click', () => {
+  if (loadedMore) return;
+  loadedMore = true;
+  appendJobs(moreJobsData);
+  const btn = document.getElementById('loadMore');
+  btn.style.opacity = '0.4';
+  btn.style.pointerEvents = 'none';
+  btn.innerHTML = 'All jobs loaded';
+});
+
+/* ========== FADE-IN OBSERVER ========== */
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      fadeObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+function observeFadeIns() {
+  document.querySelectorAll('.fade-in:not(.observed)').forEach(el => {
+    el.classList.add('observed');
+    fadeObserver.observe(el);
+  });
+}
+appendJobs(jobsData);
+observeFadeIns();
+
+/* ========== COUNTERS ========== */
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const counters = e.target.querySelectorAll('.counter');
+      counters.forEach(c => {
+        const target = +c.dataset.target;
+        const start = performance.now();
+        const duration = 1500;
+        (function tick(now) {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          c.textContent = Math.round(target * eased).toLocaleString();
+          if (t < 1) requestAnimationFrame(tick);
+        })(start);
+      });
+      counterObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+counterObserver.observe(document.getElementById('stats'));
+
+/* ========== PARALLAX GRID ========== */
+const heroGrid = document.getElementById('heroGrid');
+const heroEl = document.querySelector('.hero');
+heroEl.addEventListener('mousemove', (e) => {
+  const rect = heroEl.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+  const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+  heroGrid.style.transform = `translate(${x * -8}px, ${y * -4}px)`;
+});
+heroEl.addEventListener('mouseleave', () => {
+  heroGrid.style.transform = 'translate(0,0)';
+});
+
+/* ========== RIPPLE on .btn-primary & .form-submit & .nav-cta ========== */
+function attachRipple(selector) {
+  document.querySelectorAll(selector).forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+}
+attachRipple('.btn-primary');
+attachRipple('.form-submit');
+attachRipple('.nav-cta');
+attachRipple('.load-more');
+
+/* ========== FORM SUBMIT ========== */
+document.getElementById('bookingForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const success = document.getElementById('formSuccess');
+  success.classList.add('show');
+  setTimeout(() => success.classList.remove('show'), 5000);
+  e.target.reset();
+});
+
+</script>
+</body>
+</html>
