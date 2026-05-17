@@ -118,7 +118,6 @@
       linear-gradient(to right, rgba(229,57,53,0.18) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(229,57,53,0.18) 1px, transparent 1px);
     background-size: 60px 60px;
-    animation: gridMove 6s linear infinite;
     mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
     -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
   }
@@ -215,8 +214,22 @@
     position: absolute; left: 50%; top: 50%;
     transform: translate(-50%, -50%);
     width: 100%; max-width: 600px;
-    animation: hover 3s ease-in-out infinite;
     will-change: transform;
+  }
+  /* Default hero image sizing for desktop */
+  #hero-car { display:block; width:100%; height:auto; max-height:520px; }
+  /* Make the hero car much larger on smaller screens using viewport sizing */
+  @media (max-width: 900px) {
+    .car-stage { height: 58vh; perspective: 800px; }
+    .car-wrap { max-width: none; width: 120%; transform: translate(-50%, -48%) scale(1.03); }
+    #hero-car { width: auto; height: 55vh; max-height: none; object-fit: contain; }
+    .car-reflection { bottom: -6px; }
+  }
+  @media (max-width: 480px) {
+    .car-stage { height: 68vh; }
+    .car-wrap { max-width: none; width: 120%; transform: translate(-50%, -46%) scale(1.08); }
+    #hero-car { width: auto; height: 50vh; max-height: none; object-fit: contain; border-radius: 8px; }
+    .car-reflection { bottom: -4px; height: 28px; }
   }
   @keyframes hover {
     0%, 100% { transform: translate(-50%, -52%); }
@@ -224,12 +237,10 @@
   }
   .car-shadow {
     position: absolute; left: 50%; bottom: -38px;
-    transform: translateX(-50%);
     width: 70%; height: 36px;
     background: radial-gradient(ellipse at center, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 50%, transparent 75%);
     filter: blur(6px);
-    animation: shadowPulse 3s ease-in-out infinite;
-    z-index: -1;
+    z-index: 10;
   }
   @keyframes shadowPulse {
     0%, 100% { transform: translateX(-50%) scale(1); opacity: .9; }
@@ -494,6 +505,12 @@
     padding: 0 22px 24px;
   }
 
+  @media (max-width: 480px) {
+    .job-body-inner {
+      padding: 0 16px 16px;
+    }
+  }
+
   /* slider */
   .slider {
     position: relative;
@@ -604,6 +621,119 @@
   }
   .compare-toggle:hover { background: rgba(229,57,53,0.2); }
   .compare-toggle.active { background: var(--red); border-color: var(--red); }
+
+  /* ===== Mobile responsive fixes ===== */
+  @media (max-width: 768px) {
+    .slider {
+      aspect-ratio: 1 / 1;
+    }
+    .panel-label {
+      font-size: 9px;
+      padding: 4px 8px;
+      top: 10px;
+    }
+    .panel-before .panel-label { left: 10px; }
+    .panel-after .panel-label { right: 10px; }
+    .nav-btn {
+      width: 28px;
+      height: 28px;
+      font-size: 11px;
+    }
+    .panel-nav {
+      bottom: 10px;
+      gap: 6px;
+    }
+    .panel-before .panel-nav { left: 10px; }
+    .panel-after .panel-nav { right: 10px; }
+    .panel-counter {
+      font-size: 10px;
+      padding: 4px 8px;
+    }
+    .divider-handle {
+      width: 36px;
+      height: 36px;
+      font-size: 11px;
+    }
+    .compare-hint {
+      font-size: 9px;
+      padding: 4px 8px;
+      bottom: 10px;
+    }
+    .compare-toggle {
+      margin-top: 10px;
+      padding: 6px 10px;
+      font-size: 12px;
+      gap: 6px;
+    }
+    .compare-toggle svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .slider {
+      aspect-ratio: 1 / 1.1;
+      border-radius: 8px;
+    }
+    .panel-label {
+      font-size: 8px;
+      padding: 3px 6px;
+      top: 8px;
+    }
+    .panel-before .panel-label { left: 8px; }
+    .panel-after .panel-label { right: 8px; }
+    .nav-btn {
+      width: 24px;
+      height: 24px;
+      font-size: 10px;
+    }
+    .panel-nav {
+      bottom: 8px;
+      gap: 4px;
+    }
+    .panel-before .panel-nav { left: 8px; }
+    .panel-after .panel-nav { right: 8px; }
+    .panel-counter {
+      font-size: 9px;
+      padding: 3px 6px;
+    }
+    .divider-handle {
+      width: 32px;
+      height: 32px;
+      font-size: 10px;
+    }
+    .compare-hint {
+      font-size: 8px;
+      padding: 3px 6px;
+      bottom: 8px;
+    }
+    .compare-toggle {
+      margin-top: 8px;
+      padding: 5px 8px;
+      font-size: 11px;
+      gap: 4px;
+    }
+    .compare-toggle svg {
+      width: 11px;
+      height: 11px;
+    }
+    .job-header {
+      grid-template-columns: 50px 1fr auto;
+      gap: 12px;
+      padding: 12px 16px;
+    }
+    .job-title {
+      font-size: 15px;
+    }
+    .job-sub {
+      font-size: 11px;
+    }
+    .job-toggle {
+      width: 32px;
+      height: 32px;
+    }
+  }
 
   .load-more-wrap { text-align: center; margin-top: 36px; }
   .load-more {
@@ -765,13 +895,13 @@
 
     <!-- 3D CAR -->
     <div class="car-stage" id="carStage">
-      <div class="speed-lines">
+      <!-- <div class="speed-lines">
         <span style="top: 20%; left: 0; width: 30%; animation-delay: 0s;"></span>
         <span style="top: 35%; left: 5%; width: 22%; animation-delay: .25s;"></span>
         <span style="top: 50%; right: 0; width: 32%; animation-delay: .5s;"></span>
         <span style="top: 65%; right: 8%; width: 25%; animation-delay: .35s;"></span>
         <span style="top: 80%; left: 3%; width: 28%; animation-delay: .15s;"></span>
-      </div>
+      </div> -->
 
       <div class="car-wrap">
         <div class="car-shadow"></div>
@@ -784,9 +914,9 @@
         ></image-slot> -->
         <img
           id="hero-car"
-          src="car1.png"
+          src="ncar.png"
           alt="Car"
-          style="display:block;width:100%;height:300px;object-fit:contain;background:transparent;border:1px dashed rgba(229,57,53,0.35);border-radius:12px;"
+          style="display:block;width:100%;height:300px;object-fit:contain;background:transparent;"
         />
         <svg class="car-svg car-svg-fallback" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none;">
           <defs>
@@ -1266,108 +1396,72 @@ services.forEach(s => {
 /* ========== GALLERY JOBS ========== */
 const jobsData = [
   {
-    title: 'Full respray — 2014 Honda Civic',
-    sub: 'Color-matched two-stage urethane · 7 days in the booth',
-    tag: 'Paint',
-
+    title: 'Paint Correction & Ceramic Coating',
+    sub: 'Multi-stage correction · 5-year coating',
+    tag: 'Detailing',
     before: [
-      { hue: 20,  sat: 8,  light: 38, label: 'curb scrape, hood' },
-      { hue: 35,  sat: 6,  light: 35, label: 'oxidized roof'      },
-      { hue: 10,  sat: 5,  light: 30, label: 'rust spots, rocker' },
-      { hue: 25,  sat: 7,  light: 36, label: 'fender peeling'      },
+      { url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80', label: 'dull clearcoat, micro-scratches' },
+      { url: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80', label: 'oxidized trunk lid' }
     ],
     after: [
-      { hue: 0,   sat: 65, light: 38, label: 'fresh ceramic clearcoat' },
-      { hue: 0,   sat: 70, light: 42, label: 'mirror finish hood'      },
-      { hue: 350, sat: 55, light: 36, label: 'rockers redone'          },
-      { hue: 0,   sat: 60, light: 40, label: 'panel-perfect'            },
+      { url: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=800&q=80', label: 'mirror-like ceramic finish' },
+      { url: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80', label: 'flawless reflection' }
     ],
   },
   {
-    title: 'Dent repair & panel beat — 2019 Toyota RAV4',
-    sub: 'PDR + filler-free section work · 36 labor hours',
-    tag: 'Dent Repair',
-    before: [
-      { hue: 215, sat: 5,  light: 30, label: 'rear quarter dent'  },
-      { hue: 210, sat: 6,  light: 32, label: 'crease, driver door'},
-      { hue: 220, sat: 4,  light: 28, label: 'bumper misalignment'},
-    ],
-    after: [
-      { hue: 215, sat: 35, light: 32, label: 'straight as glass' },
-      { hue: 215, sat: 38, light: 36, label: 'door, restored'    },
-      { hue: 215, sat: 32, light: 30, label: 'bumper realigned'  },
-    ],
-  },
-  {
-    title: 'Full interior detail — 2017 BMW 3-Series',
-    sub: 'Leather rehab · headliner clean · ozone treatment',
+    title: 'Full Interior Restoration',
+    sub: 'Deep extraction · leather conditioning',
     tag: 'Interior',
     before: [
-      { hue: 30, sat: 6,  light: 25, label: 'coffee stains'    },
-      { hue: 35, sat: 5,  light: 22, label: 'cracked leather'  },
-      { hue: 40, sat: 7,  light: 28, label: 'dust-caked vents' },
+      { url: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80', label: 'dusty console, faded trim' },
     ],
     after: [
-      { hue: 30, sat: 25, light: 18, label: 'rich oiled leather' },
-      { hue: 30, sat: 22, light: 20, label: 'crack-filled seats' },
-      { hue: 30, sat: 28, light: 22, label: 'showroom-clean dash'},
+      { url: 'https://images.unsplash.com/photo-1617469165786-8007eda3caa7?auto=format&fit=crop&w=800&q=80', label: 'showroom condition leather' },
+    ],
+  },
+  {
+    title: 'Engine Bay Detailing',
+    sub: 'Degrease · steam clean · plastic restore',
+    tag: 'Engine',
+    before: [
+      { url: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=800&q=80', label: 'grease & road grime build-up' },
+    ],
+    after: [
+      { url: 'https://images.unsplash.com/photo-1506469717960-433cebe3f181?auto=format&fit=crop&w=800&q=80', label: 'dressed plastics & clean block' },
     ],
   },
 ];
 
 const moreJobsData = [
   {
-    title: 'Engine swap — 2008 Subaru WRX',
-    sub: 'JDM EJ20 longblock · clean install',
-    tag: 'Powertrain',
+    title: 'Alloy Wheel Refurbishment',
+    sub: 'Curb rash repair · powder coat',
+    tag: 'Wheels',
     before: [
-      { hue: 0, sat: 0, light: 22, label: 'tired old bay'   },
-      { hue: 0, sat: 0, light: 18, label: 'oil-caked block' },
-      { hue: 0, sat: 0, light: 20, label: 'corroded wiring' },
+      { url: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=800&q=80', label: 'heavy brake dust & curb rash'   },
     ],
     after: [
-      { hue: 220, sat: 50, light: 28, label: 'fresh bay, dressed' },
-      { hue: 220, sat: 55, light: 32, label: 'new longblock'      },
-      { hue: 220, sat: 48, light: 30, label: 'tidied harness'     },
-    ],
-  },
-  {
-    title: 'Headlight restoration — 2012 Mazda 3',
-    sub: 'Wet sand · polish · UV-resist seal',
-    tag: 'Detailing',
-    before: [
-      { hue: 50, sat: 8, light: 70, label: 'yellow haze'  },
-      { hue: 50, sat: 10, light: 68, label: 'cloudy lens' },
-    ],
-    after: [
-      { hue: 200, sat: 30, light: 88, label: 'crystal clear' },
-      { hue: 200, sat: 28, light: 90, label: 'OEM-fresh'     },
+      { url: 'https://images.unsplash.com/photo-1600705722908-bab1e61c0b4d?auto=format&fit=crop&w=800&q=80', label: 'fresh gloss black powder coat' },
     ],
   },
 ];
 
-function makePanelSwatch(p) {
-  // texture is two overlaid noise-ish gradients
-  return `
-    background:
-      repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 6px),
-      repeating-linear-gradient(45deg, rgba(0,0,0,0.06) 0 3px, transparent 3px 9px),
-      radial-gradient(circle at 30% 40%, hsl(${p.hue} ${p.sat}% ${p.light + 8}%), hsl(${p.hue} ${p.sat}% ${p.light}%) 60%, hsl(${p.hue} ${p.sat}% ${Math.max(p.light - 10, 5)}%));
-  `;
+function makePanelStyle(p) {
+  return `background: #111 url('${p.url}') center/cover no-repeat;`;
 }
 
 function renderJob(job, idx) {
   const id = 'job-' + Math.random().toString(36).slice(2, 8);
-  const beforeImgs = job.before.map((p, i) => `<div class="panel-img${i === 0 ? ' active' : ''}" style="${makePanelSwatch(p)}">
-    <div style="position:absolute;bottom:14px;left:14px;font:500 11px/1 ui-monospace,monospace;color:rgba(255,255,255,0.6);letter-spacing:0.05em;">— ${p.label}</div>
+  const beforeImgs = job.before.map((p, i) => `<div class="panel-img${i === 0 ? ' active' : ''}" style="${makePanelStyle(p)}">
+    <div style="position:absolute;bottom:14px;left:14px;font:500 11px/1 ui-monospace,monospace;color:rgba(255,255,255,0.9);letter-spacing:0.05em;text-shadow:0 1px 4px rgba(0,0,0,0.8);">— ${p.label}</div>
   </div>`).join('');
-  const afterImgs  = job.after.map((p, i)  => `<div class="panel-img${i === 0 ? ' active' : ''}" style="${makePanelSwatch(p)}">
-    <div style="position:absolute;bottom:14px;right:14px;font:500 11px/1 ui-monospace,monospace;color:rgba(255,255,255,0.75);letter-spacing:0.05em;">— ${p.label}</div>
+  const afterImgs  = job.after.map((p, i)  => `<div class="panel-img${i === 0 ? ' active' : ''}" style="${makePanelStyle(p)}">
+    <div style="position:absolute;bottom:14px;right:14px;font:500 11px/1 ui-monospace,monospace;color:rgba(255,255,255,0.9);letter-spacing:0.05em;text-shadow:0 1px 4px rgba(0,0,0,0.8);">— ${p.label}</div>
   </div>`).join('');
 
-  // tiny thumbnail strip uses first 3 swatches mixed
+  // tiny thumbnail strip uses first 3 images
   const thumbs = job.before.slice(0, 2).concat(job.after.slice(0, 1)).map(p =>
-    `<div class="job-thumb" style="${makePanelSwatch(p)}"></div>`
+    `<div class="job-thumb" style="${makePanelStyle(p)}"></div>`
   ).join('');
 
   return `
